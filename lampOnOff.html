@@ -7,39 +7,48 @@
 <body>
 
 <script>
-    let SwitchButton = function () {
-        this.connectToLamp = function (electricLamp) {
-            this.electricLamp = electricLamp
-        }
-        this.switchOff = function () {
-            return this.electricLamp.turnOff();
-            console.log("switch off")
-        }
-        this.switchOn = function () {
-            return this.electricLamp.turnOn();
-            console.log("switch on")
-        }
-
-    };
-
-    let EletricLamp = function () {
+    function ElectricLamp() {
+        this.status = false;
         this.turnOn = function () {
-            console.log("Lamp is On")
+            return this.status = true;
         };
         this.turnOff = function () {
-            console.log("Lamp is Off")
+            return this.status = false
         }
     }
 
-    let button = new SwitchButton();
-    let lamp = new EletricLamp();
-    button.connectToLamp(lamp);
-    for(i=1; i<=10; i++)
-    {
-        console.log(i);
-        button.switchOn();
-        button.switchOff();
+    function SwitchButton() {
+        this.status = false;
+
+        this.state = function () {
+            return this.status;
+        };
+
+        this.connectToLamp = function(electricLamp){
+            if(this.status === true){
+                electricLamp.turnOn()
+            } else if(this.status === false){
+                electricLamp.turnOff();
+            }
+        };
+
+        this.switchOn = function () {
+            return this.status = true;
+        };
+
+        this.switchOff = function () {
+            return this.status = false;
+        }
     }
+
+    let lamp = new ElectricLamp();
+    let switchButton = new SwitchButton();
+    switchButton.switchOn();
+    switchButton.connectToLamp(lamp);
+    console.log(lamp.status);
+    switchButton.switchOff();
+    switchButton.connectToLamp(lamp);
+    console.log(lamp.status);
 
 </script>
 </body>
